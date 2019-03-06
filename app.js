@@ -51,26 +51,10 @@ new ImageGallery('water-can', 'jpg');
 new ImageGallery('wine-glass', 'jpg');
 
 function makeThreeImages() {
-    var newRowOfImages = [];
-    
-
- 
-  console.log(newRowOfImages);
-
-  var random1 = randomImageOne();
-  var random2 = randomImageTwo();
-  var random3 = randomImageThree();
-  newRowOfImages.push(random1);
-  newRowOfImages.push(random2);
-  newRowOfImages.push(random3);
-
-
- 
-
+  randomImageOne();
+  randomImageTwo();
+  randomImageThree();
   imageNonRepeat();
-  
-  return newRowOfImages;
-
 }
 
 
@@ -112,81 +96,58 @@ function randomImageThree() {
 }
 
 function handleFirstImageClick() {
-
-  allPhotos[randomPic1].imageDisplayedCounter++;
-  console.log(allPhotos[randomPic1].imageDisplayedCounter);
-
-//   clickCounter++;
-  //   console.log(clickCounter);
-
   for (var i in allPhotos) {
-
     if (event.target.alt === allPhotos[i].name) {
       allPhotos[i].numberOfClicks ++;
-      console.log('Amount of times the image was clicked ' + allPhotos[i].numberOfClicks + ' ' + allPhotos[i].name);
-
       clickCounter++;
-
     }
   }
-
-
-
-//   allPhotos[randomPic1].numberOfClicks++;
-  //   console.log(this.numberOfClicks);
+  if (clickCounter === maxClicks){
+    makeList();
+  }
   makeThreeImages();
-
 }
 
 function handleSecondImageClick(event) {
-  //allPhotos[randomPic2].imageDisplayedCounter += 1;
-  //console.log('the amount the image has been displayed ' + allPhotos[randomPic2].imageDisplayedCounter);
-
   for (var i in allPhotos) {
-
     if (event.target.alt === allPhotos[i].name) {
       allPhotos[i].numberOfClicks ++;
-      //console.log('Amount of times the image was clicked ' + allPhotos[i].numberOfClicks + ' ' + allPhotos[i].name);
-
       clickCounter++;
-
+    }
+    if (clickCounter === maxClicks){
+      makeList();
     }
   }
-
-
-
-  //   allPhotos[randomPic2].numberOfClicks++;
-
   makeThreeImages();
 }
 
 function handleThirdImageClick() {
-
-//   allPhotos[randomPic3].imageDisplayedCounter++;
-//   clickCounter++;
-
-for (var i in allPhotos) {
-
+  for (var i in allPhotos) {
     if (event.target.alt === allPhotos[i].name) {
       allPhotos[i].numberOfClicks ++;
-      //console.log('Amount of times the image was clicked ' + allPhotos[i].numberOfClicks + ' ' + allPhotos[i].name);
-
       clickCounter++;
-
     }
   }
-
-
-//   allPhotos[randomPic3].numberOfClicks++;
-
+  if (clickCounter === maxClicks){
+    makeList();
+  }
   makeThreeImages();
 }
 
+function makeList () {
+  var myData = document.getElementById('dataList');
+  var newUL = document.createElement('ul');
+  for (var i = 0; i < allPhotos.length; i++) {
+    var newLI = document.createElement('li');
+    newLI.innerText = allPhotos[i].numberOfClicks + ' votes for ' + allPhotos[i].name + ' (Total times displayed: ' + allPhotos[i].imageDisplayedCounter + ')';
+    newUL.appendChild(newLI);
+  }
+  myData.appendChild(newUL);
+}
+console.log(clickCounter);
 
 pictureOne.addEventListener('click', handleFirstImageClick);
 pictureTwo.addEventListener('click', handleSecondImageClick);
 pictureThree.addEventListener('click', handleThirdImageClick);
-
-
 
 makeThreeImages();
