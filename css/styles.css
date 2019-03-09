@@ -1,4 +1,113 @@
+body {
+    /* background-color: red; */
+}
+
+header {
+    font-size: 50px;
+    text-align: center;
+}
+
+#imageSection {
+    background-image: url('../img/steve-johnson-676952-unsplash\ \(1\).jpg');
+    margin: 0 auto;
+    background-color: aqua;
+    height: 100vh;
+    width: 90%;
+    text-align: center;
+    /* clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); */
+    animation-name: zoomInRight;
+    animation-duration: 0.5s;
+    animation-timing-function: ease-out;
+}
+
 img {
+    border-radius: 500px;
     Width: 300px;
     height: 300px;
+    margin-top: 19%;
+    overflow: hidden;
+    animation-name: bounceInDown;
+    animation-delay: 2.1s;
+    animation-duration: 1s;
+    animation-timing-function: ease-out;
 }
+
+canvas {
+    margin: 0 auto;
+    width:1000px !important;
+    height: 1000px !important;
+}
+
+
+.tableImages{
+    width: 50px;
+    height: 50px;
+}
+
+th {
+    width: 400px;
+    margin-left: 20px;
+}
+
+td {
+    padding-left: 11%;
+    height: 100px;
+}
+
+tr {
+    padding-top: 10px;
+    height: 100px;
+}
+
+#dataList {
+    margin: 0 auto;
+    height: 1000px;
+    width: 1000px;
+    font-size: 24px;
+}
+
+@keyframes bounceInDown {
+    from,
+    60%,
+    75%,
+    90%,
+    to {
+      animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+    }
+  
+    0% {
+      opacity: 0;
+      transform: translate3d(0, -3000px, 0);
+    }
+  
+    60% {
+      opacity: 1;
+      transform: translate3d(0, 25px, 0);
+    }
+  
+    75% {
+      transform: translate3d(0, -10px, 0);
+    }
+  
+    90% {
+      transform: translate3d(0, 5px, 0);
+    }
+  
+    to {
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes zoomInRight {
+    from {
+      opacity: 0;
+      transform: scale3d(0.1, 0.1, 0.1) translate3d(1000px, 0, 0);
+      animation-timing-function: cubic-bezier(0.55, 0.055, 0.675, 0.19);
+    }
+  
+    60% {
+      opacity: 1;
+      transform: scale3d(0.475, 0.475, 0.475) translate3d(-10px, 0, 0);
+      animation-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1);
+    }
+  }

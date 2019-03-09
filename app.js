@@ -3,7 +3,9 @@
 var pictureOne = document.getElementById('picture1');
 var pictureTwo = document.getElementById('picture2');
 var pictureThree = document.getElementById('picture3');
-
+var deleteImage = document.getElementById('imageSection');
+var ctx = document.getElementById('barChart').getContext('2d');
+console.log(ctx);
 var allPhotos = [];
 var imageNames = [];
 console.log(imageNames);
@@ -21,10 +23,10 @@ function ImageGallery(name, ext) {
   this.name = name;
   this.ext = ext;
   this.filePath = `img/${name}.${ext}`;
-
+  
   this.imageDisplayedCounter = 0;
   this.numberOfClicks = 0;
-
+  
   imageNames.push(this.name);
   allPhotos.push(this);
 }
@@ -101,9 +103,14 @@ function handleFirstImageClick() {
       allPhotos[i].numberOfClicks ++;
       clickCounter++;
     }
+    if (clickCounter === maxClicks){
+      break;
+    }
   }
   if (clickCounter === maxClicks){
-    makeList();
+    deleteImage.remove();
+    chartMaker();
+    makeNewList();
   }
   makeThreeImages();
 }
@@ -115,8 +122,13 @@ function handleSecondImageClick(event) {
       clickCounter++;
     }
     if (clickCounter === maxClicks){
-      makeList();
+      break;
     }
+  }
+  if (clickCounter === maxClicks){
+    deleteImage.remove();
+    chartMaker();
+    makeNewList();
   }
   makeThreeImages();
 }
@@ -127,23 +139,72 @@ function handleThirdImageClick() {
       allPhotos[i].numberOfClicks ++;
       clickCounter++;
     }
+    if (clickCounter === maxClicks){
+      break;
+    }
   }
   if (clickCounter === maxClicks){
-    makeList();
+    deleteImage.remove();
+    chartMaker();
+    makeNewList();
   }
   makeThreeImages();
 }
 
-function makeList () {
+function makeNewList() {
   var myData = document.getElementById('dataList');
-  var newUL = document.createElement('ul');
+  var hrEl = document.createElement('tr');
+  var ihEl = document.createElement('th');
+  ihEl.textContent = '';
+  var hdEl = document.createElement('th');
+  hdEl.textContent = 'Display Total';
+  var h2El = document.createElement('th');
+  h2El.textContent = 'Votes Total';
+  var nhEl = document.createElement('th');
+  nhEl.textContent = 'Image Name';
+  hrEl.appendChild(ihEl);
+  hrEl.appendChild(nhEl);
+  hrEl.appendChild(hdEl);
+  hrEl.appendChild(h2El);
+
+  var idEl = document.createElement('td');
+  var nameEl = document.createElement('td');
+  var tdEl = document.createElement('td');
+  var dEl = document.createElement('td');
   for (var i = 0; i < allPhotos.length; i++) {
-    var newLI = document.createElement('li');
-    newLI.innerText = allPhotos[i].numberOfClicks + ' votes for ' + allPhotos[i].name + ' (Total times displayed: ' + allPhotos[i].imageDisplayedCounter + ')';
-    newUL.appendChild(newLI);
+    var trEl = document.createElement('tr');
+    trEl.innerText = allPhotos[i].numberOfClicks;
+    tdEl.appendChild(trEl);
+
+    var drEl = document.createElement('tr');
+    drEl.innerText = allPhotos[i].imageDisplayedCounter;
+    dEl.appendChild(drEl);
+
+    var name2El = document.createElement('tr');
+    name2El.innerText = allPhotos[i].name;
+    nameEl.appendChild(name2El);
+
+    var irEl = document.createElement('tr');
+    irEl.innerHTML = '<img src="' + allPhotos[i].filePath + '" class="tableImages">';
+    idEl.appendChild(irEl);
   }
-  myData.appendChild(newUL);
+  myData.appendChild(hrEl);
+  myData.appendChild(idEl);
+  myData.appendChild(nameEl);
+  myData.appendChild(dEl);
+  myData.appendChild(tdEl);
 }
+
+// function makeList () {
+//   var myData = document.getElementById('dataList');
+//   var newUL = document.createElement('ul');
+//   for (var i = 0; i < allPhotos.length; i++) {
+//     var newLI = document.createElement('li');
+//     newLI.innerText = allPhotos[i].numberOfClicks + ' votes for ' + allPhotos[i].name + ' (Total times displayed: ' + allPhotos[i].imageDisplayedCounter + ')';
+//     newUL.appendChild(newLI);
+//   }
+//   myData.appendChild(newUL);
+// }
 console.log(clickCounter);
 
 pictureOne.addEventListener('click', handleFirstImageClick);
@@ -151,3 +212,52 @@ pictureTwo.addEventListener('click', handleSecondImageClick);
 pictureThree.addEventListener('click', handleThirdImageClick);
 
 makeThreeImages();
+
+function chartMaker () {
+
+
+  var clicks = [];
+  for (var i = 0; i < allPhotos.length; i++){
+    clicks.push(allPhotos[i].numberOfClicks);
+  }
+  var displayed = [];
+  for (var j = 0; j < allPhotos.length; j++){
+    displayed.push(allPhotos[j].imageDisplayedCounter);
+  }
+
+  var data = {
+    labels: imageNames,
+    datasets: [
+      {
+        label: 'Image Displayed',
+        backgroundColor: '#421b9b33',
+        data: displayed
+      },
+      {
+        label: 'Image Votes',
+        backgroundColor: '#51eaea33',
+        data: clicks
+      }
+    ]
+  };
+
+  var MyData = new Chart(ctx, {
+    type: 'bar',
+    data: data,
+    options: {
+      barValueSpacing: 20,
+      scales: {
+        yAxes: [{
+          ticks: {
+            min: 0,
+          }
+        }]
+      }
+    }
+  });
+
+}
+
+
+
+
