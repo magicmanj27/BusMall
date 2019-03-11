@@ -2,6 +2,11 @@ body {
     /* background-color: red; */
 }
 
+h1 {
+  border-width: 5px;
+  border: dashed blue;
+}
+
 header {
     font-size: 50px;
     text-align: center;
@@ -27,8 +32,8 @@ img {
     margin-top: 19%;
     overflow: hidden;
     animation-name: bounceInDown;
-    animation-delay: 2.1s;
-    animation-duration: 1s;
+    /* transition-delay: 5s; */
+    animation-duration: 3s;
     animation-timing-function: ease-out;
 }
 

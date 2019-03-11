@@ -1,4 +1,5 @@
 'use strict';
+console.log('Script loaded');
 
 var pictureOne = document.getElementById('picture1');
 var pictureTwo = document.getElementById('picture2');
@@ -10,12 +11,15 @@ var allPhotos = [];
 var imageNames = [];
 console.log(imageNames);
 
-var randomPic1 = 0;
-var randomPic2 = 0;
-var randomPic3 = 0;
+// var randomPic1 = 0;
+// var randomPic2 = 0;
+// var randomPic3 = 0;
 
 var maxClicks = 25;
 var clickCounter = 0;
+var usedImages = [];
+console.log('My Shit', usedImages);
+
 console.log(clickCounter);
 
 
@@ -23,10 +27,10 @@ function ImageGallery(name, ext) {
   this.name = name;
   this.ext = ext;
   this.filePath = `img/${name}.${ext}`;
-  
+
   this.imageDisplayedCounter = 0;
   this.numberOfClicks = 0;
-  
+
   imageNames.push(this.name);
   allPhotos.push(this);
 }
@@ -60,18 +64,32 @@ function makeThreeImages() {
 }
 
 
+
 function imageNonRepeat() {
-  while (pictureOne.src === pictureTwo.src
-        || pictureOne.src === pictureThree.src
-        || pictureTwo.src === pictureThree.src) {
+
+  if (randomPic1 === randomPic2
+        || randomPic1 === randomPic3
+        || randomPic2 === randomPic3
+        || usedImages.indexOf(randomPic1) !== -1
+        || usedImages.indexOf(randomPic2) !== -1
+        || usedImages.indexOf(randomPic3) !== -1
+  ){
     makeThreeImages();
+    console.log(makeThreeImages);
+  } else {
+    usedImages.length = 0;
+    usedImages.push(randomPic1);
+    usedImages.push(randomPic2);
+    usedImages.push(randomPic3);
   }
 }
 
-
+var randomPic1;
+var randomPic2;
+var randomPic3;
 
 function randomImageOne() {
-  var randomPic1 = Math.floor(Math.random() * allPhotos.length);
+  randomPic1 = Math.floor(Math.random() * allPhotos.length);
   pictureOne.src = allPhotos[randomPic1].filePath;
   pictureOne.alt = allPhotos[randomPic1].name;
   pictureOne.title = allPhotos[randomPic1].name;
@@ -80,7 +98,7 @@ function randomImageOne() {
 }
 
 function randomImageTwo() {
-  var randomPic2 = Math.floor(Math.random() * allPhotos.length);
+  randomPic2 = Math.floor(Math.random() * allPhotos.length);
   pictureTwo.src = allPhotos[randomPic2].filePath;
   pictureTwo.alt = allPhotos[randomPic2].name;
   pictureTwo.title = allPhotos[randomPic2].name;
@@ -89,7 +107,7 @@ function randomImageTwo() {
 }
 
 function randomImageThree() {
-  var randomPic3 = Math.floor(Math.random() * allPhotos.length);
+  randomPic3 = Math.floor(Math.random() * allPhotos.length);
   pictureThree.src = allPhotos[randomPic3].filePath;
   pictureThree.alt = allPhotos[randomPic3].name;
   pictureThree.title = allPhotos[randomPic3].name;
@@ -111,6 +129,7 @@ function handleFirstImageClick() {
     deleteImage.remove();
     chartMaker();
     makeNewList();
+    storeData();
   }
   makeThreeImages();
 }
@@ -129,6 +148,7 @@ function handleSecondImageClick(event) {
     deleteImage.remove();
     chartMaker();
     makeNewList();
+    storeData();
   }
   makeThreeImages();
 }
@@ -147,6 +167,7 @@ function handleThirdImageClick() {
     deleteImage.remove();
     chartMaker();
     makeNewList();
+    storeData();
   }
   makeThreeImages();
 }
@@ -255,9 +276,16 @@ function chartMaker () {
       }
     }
   });
-
 }
 
+function storeData() {
+  localStorage.setItem('myData', JSON.stringify(allPhotos));
+  var retrieveData = localStorage.getItem('myData');
+  console.log(retrieveData, JSON.parse(retrieveData));
+}
 
-
-
+if (true) {
+  console.log('string');
+  var something = localStorage.getItem('myData');
+  allPhotos = JSON.parse(something);
+}
