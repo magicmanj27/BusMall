@@ -284,8 +284,8 @@ function storeData() {
   console.log(retrieveData, JSON.parse(retrieveData));
 }
 
-if (true) {
-  console.log('string');
-  var something = localStorage.getItem('myData');
-  allPhotos = JSON.parse(something);
-}
+// if (true) {
+//   console.log('string');
+//   var something = localStorage.getItem('myData');
+//   allPhotos = JSON.parse(something);
+// }
